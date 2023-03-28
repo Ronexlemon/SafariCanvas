@@ -1,5 +1,6 @@
 const {ethers} = require("hardhat")
-
+//NFTMinterAddress =   0x27B077Ed737A96DF0AEF221AbDFb5f0751Ed6feE
+//NFTMarketAddress =   0x6fCc2165026F17b4555c3445d7adC2f67CE99EB3
 async function main(){
 
     //get the nft contract
