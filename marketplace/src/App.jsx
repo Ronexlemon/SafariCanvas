@@ -1,7 +1,22 @@
 import { useState } from 'react'
+import { CeloContract } from '@celo/contractkit'
 import reactLogo from './assets/react.svg'
 import viteLogo from '/vite.svg'
 import './App.css'
+
+function WrappedApp() {
+  return (
+    <CeloProvider
+      dapp={{
+        name: "MarketPlace",
+        description: "My awesome description",
+        url: "https://example.com",
+      }}
+    >
+      <App />
+    </CeloProvider>
+  );
+}
 
 function App() {
   const [count, setCount] = useState(0)

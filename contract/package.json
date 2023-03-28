@@ -4,14 +4,21 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "start": "react-scripts start",
+    "build": "react-scripts build",
+    "test": "react-scripts test",
+    "eject": "react-scripts eject",
+    "compile": "npx hardhat compile",
+    "deploy": "npx hardhat run --network alfajores scripts/nftmarketplace.js",
+    "test-contract": "npx hardhat test"
   },
   "keywords": [],
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "@nomicfoundation/hardhat-toolbox": "^2.0.2",
-    "hardhat": "^2.13.0"
+    "hardhat": "^2.13.0",
+    "tailwindcss": "^3.3.0"
   },
   "dependencies": {
     "@openzeppelin/contracts": "^4.8.2",
