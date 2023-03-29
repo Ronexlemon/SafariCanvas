@@ -1,7 +1,6 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
-const LandingNavBar= ()=>{
-    const navigate = useNavigate();
+
+const NavBarAllNFTS= ()=>{
     return(
 
         <div className="h-20 w-full bg-black text-white flex justify-around items-center">
@@ -9,7 +8,7 @@ const LandingNavBar= ()=>{
  <span>MarketPlace</span>
             </div>
             <div className="bg-orange-300 rounded h-15  ">
-                <button onClick={()=>{navigate("/marketplace")}} >Get Started</button>
+                <button  >MY NFTS</button>
                 </div>
 
             
@@ -18,4 +17,4 @@ const LandingNavBar= ()=>{
 
 
 }
-export default LandingNavBar;
+export default NavBarAllNFTS;

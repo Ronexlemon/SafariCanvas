@@ -3,6 +3,7 @@ import Web3Modal from "web3modal"
 import {providers,Contract} from "ethers";
 import { AppContext } from '../contexts/AppContexts';
 import { BrowserRouter as Router, Routes,Route } from 'react-router-dom';
+import MarketPlace from './pages/Marketplace';
 
 import reactLogo from './assets/react.svg'
 
@@ -20,6 +21,7 @@ function App() {
     <Routes>
       <Route path='/' element={<LandingPage/>}/>
       <Route path='/home' element={<LandingPage/>}/>
+      <Route path='/marketplace' element={<MarketPlace/>}/>
     </Routes>
    </Router>
     </AppContext.Provider>
