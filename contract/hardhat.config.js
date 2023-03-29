@@ -6,10 +6,10 @@ const KEY = process.env.KEY;
 module.exports = {
   solidity: "0.8.9",
   networks:{
-    alfajores:{
-      url: "https://alfajores-forno.celo-testnet.org",
+    mumbai:{
+      url: "https://rpc-mumbai.maticvigil.com",
       accounts: [KEY],
-      chainId: 44787,
+      chainId: 80001,
     },
   },
 };
