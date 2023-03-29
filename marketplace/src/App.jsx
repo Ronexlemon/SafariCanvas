@@ -14,10 +14,44 @@ import MintNfts from './pages/MintNFT';
 
 
 function App() {
-  const [count, setCount] = useState(0)
+  const web3ModalRef = useRef()
+  const [account,setAccount] = useState();
+  const getProviderOrSigner =async (needSigner = false)=>{
+    const provider =await  web3ModalRef.current.connect();
+    const web3Provider = new providers.Web3Provider(provider);
+    const {chainId} =  await web3Provider.getNetwork();
+    const signer =  web3Provider.getSigner();
+    const accounts =await  signer.getAddress();
+    setAccount(accounts);
+    if ( chainId != 80001 ){
+      alert("please connect to mumbai Network");
+    }
+    if(needSigner){
+      const signer =  web3Provider.getSigner();
+      return signer;
+    }
+    return web3Provider;
+
+  }
+  console.log("accounts is", account);
+  useEffect(()=>{
+    web3ModalRef.current =new Web3Modal({
+        network: "mantle",
+        providerOptions: {},
+        disableInjectedProvider: false,
+        cacheProvider: false,
+      });
+      
+    
+    },[])
 
   return (
-    <AppContext.Provider>
+    <AppContext.Provider 
+    value={{
+      getProviderOrSigner,
+      Contract,
+      account
+    }}>
    <Router>
     <Routes>
       <Route path='/' element={<LandingPage/>}/>
