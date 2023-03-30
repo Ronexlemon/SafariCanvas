@@ -3,9 +3,13 @@ import jeep from "../assets/jeep.jpeg"
 import { AppContext } from "../../contexts/AppContexts";
 import { NFTABI } from "../abis/nftabi";
 import { NFTMinterAddress } from "../contractsadress/address";
+import { NFTMarketAddress } from "../contractsadress/address";
+import { MarketPlaceABI } from "../abis/marketplaceabi";
 import { Web3Storage } from "web3.storage";
 import Web3Modal from "web3modal"
 import {providers,Contract} from "ethers";
+import { BigNumber } from "ethers";
+import { ethers } from "ethers";
 const key = import.meta.env.KEY 
 
 const getAccessKey = ()=>{
@@ -95,7 +99,17 @@ const Mintnftform= ()=>{
       const signer = await getProviderOrSigner(true);
       const contract = new Contract(NFTMinterAddress,NFTABI,signer);
       const transaction = await contract.createNFT(url);
-      await transaction.wait();
+      const receipt = await transaction.wait(); // Wait for transaction confirmation
+      const transferEvent = receipt.events.find((event) => event.event === "Transfer");
+      const tokenCount = transferEvent.args.tokenId.toString();
+    console.log("count token",tokenCount);
+    //   const NFTprice = Number(ethers.utils.parseUnits(String(price), "ether"));
+    const NFTprice = Number(ethers.BigNumber.from(price));
+      console.log(NFTprice);
+      await contract.approve(NFTMarketAddress,tokenCount);
+   const contract2 = new Contract(NFTMarketAddress,MarketPlaceABI,signer);
+   const tx =  contract2.listNFT(NFTMinterAddress,tokenCount,NFTprice);
+   
   alert("mint done");
             }catch(error){
                 console.log("create error", error);
