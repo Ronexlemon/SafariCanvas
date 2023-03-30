@@ -33,10 +33,10 @@ function App() {
     return web3Provider;
 
   }
-  console.log("accounts is", account);
+  console.log("account start", account);
   useEffect(()=>{
     web3ModalRef.current =new Web3Modal({
-        network: "mantle",
+        network: "mumbai",
         providerOptions: {},
         disableInjectedProvider: false,
         cacheProvider: false,
