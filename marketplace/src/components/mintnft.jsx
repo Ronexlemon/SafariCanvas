@@ -10,6 +10,9 @@ const getAccessKey = ()=>{
     return import .meta.env.VITE_KEY ;
     
 }
+const makeStorageClient = ()=>{
+    return new Web3Storage({token: getAccessKey()});  
+}
 console.log("the key is",getAccessKey() );
 const Mintnftform= ()=>{
      
