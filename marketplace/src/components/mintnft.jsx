@@ -18,6 +18,12 @@ const upload = (file)=>{
     const file_cid = client.put(file);
     return file_cid ;
 }
+
+const makeFileObjects = (file,file_name)=>{
+const blob = new Blob([JSON.stringify(file),{type: "application/json"}]);
+const files = [File([blob],`${file_name}.json`)];
+return files;
+}
 console.log("the key is",getAccessKey() );
 const Mintnftform= ()=>{
      
