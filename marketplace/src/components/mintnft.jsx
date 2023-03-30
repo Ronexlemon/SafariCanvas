@@ -13,6 +13,11 @@ const getAccessKey = ()=>{
 const makeStorageClient = ()=>{
     return new Web3Storage({token: getAccessKey()});  
 }
+const upload = (file)=>{
+    const client = makeStorageClient();
+    const file_cid = client.put(file);
+    return file_cid ;
+}
 console.log("the key is",getAccessKey() );
 const Mintnftform= ()=>{
      
