@@ -80,9 +80,9 @@ contract NFTMarketplace {
     }
 
     function getAllNFTListing() public view returns (NFTListing[] memory nfts) {
-        uint numof = numOfListing.current();
-        nfts = new NFTListing[](numof);
-        for (uint i = 0; i < numof; i++) {
+        uint num = numOfListing.current();
+        nfts = new NFTListing[](num);
+        for (uint i = 0; i < num; i++) {
             nfts[i] = listings[i];
         }
     }
