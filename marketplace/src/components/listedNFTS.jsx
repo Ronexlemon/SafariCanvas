@@ -1,8 +1,38 @@
-import React from "react";
+import React,{useState,useEffect,useContext} from "react";
 import jeep from "../assets/jeep.jpeg"
+import { MarketPlaceABI } from "../abis/marketplaceabi";
+import { NFTMarketAddress } from "../contractsadress/address";
+import { AppContext } from "../../contexts/AppContexts";
 
 const ListedNFTS= ()=>{
+  const [data,setData]  = useState([]);
+
+  const getAllNFT =  async()=>{
+    try{
+      let _data= [];
+      const provider = await getProviderOrSigner();
+      const contract = new Contract(NFTMarketAddress,MarketPlaceABI,provider);
+      const  results = await contract.getAllNFTListing();
+      results?.forEach((element)=>{
+        _data.push(element);
+      });
+      setData(_data);
+
+    }catch(error){
+      console.log("the all nft error is: ", error);
+    }
+  }
+  const {
+    getProviderOrSigner,
+        Contract,
+} = useContext(AppContext)
+
+useEffect(()=>{
+getAllNFT();
+},[])
+console.log("the data is", Number(data.price));
     return(
+
 
         <div className="h-screen w-full bg-black text-white grid grid-cols-4 gap-4  place-items-start">
 <div class="max-w-sm rounded overflow-hidden shadow-lg ">
