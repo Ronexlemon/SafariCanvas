@@ -1,4 +1,5 @@
 import React,{useState,useEffect,useContext,useRef} from "react";
+import  axios from "axios"
 import jeep from "../assets/jeep.jpeg"
 import { MarketPlaceABI } from "../abis/marketplaceabi";
 import { NFTMarketAddress } from "../contractsadress/address";
@@ -34,7 +35,9 @@ const ListedNFTS= ()=>{
     if (!ipfsUrl) return null;
     const meta = await axios.get(ipfsUrl);
     const data = JSON.parse(meta.data);
+    console.log("the data is",typeof(data));
     return data;
+
   } catch (e) {
     console.log({ e });
   }
@@ -53,6 +56,7 @@ const ListedNFTS= ()=>{
         const nft = new Promise(async (resolve) => {
           const listing = await contract.getNFTListing(i);
           const res = await contract2.tokenURI(i);
+          alert(await res);
           const meta = await fetchNftMeta(res);
           resolve({
             index: i,

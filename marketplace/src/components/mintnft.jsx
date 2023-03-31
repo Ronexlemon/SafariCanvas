@@ -92,9 +92,10 @@ const Mintnftform= ()=>{
             });
             try{
                 const files = makeFileObjects(data,name);
-                const file_cid = upload(files);
+                const file_cid = await upload(files);
                  // IPFS url for uploaded metadata
       const url = `https://${file_cid}.ipfs.w3s.link/${name}.json`;
+      alert(url);
       console.log("the url",url)
       const signer = await getProviderOrSigner(true);
       const contract = new Contract(NFTMinterAddress,NFTABI,signer);
