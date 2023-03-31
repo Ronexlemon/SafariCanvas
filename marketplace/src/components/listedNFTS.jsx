@@ -1,100 +1,160 @@
-import React,{useState,useEffect,useContext} from "react";
+import React,{useState,useEffect,useContext,useRef} from "react";
 import jeep from "../assets/jeep.jpeg"
 import { MarketPlaceABI } from "../abis/marketplaceabi";
 import { NFTMarketAddress } from "../contractsadress/address";
+import { NFTMinterAddress } from "../contractsadress/address";
+import { NFTABI } from "../abis/nftabi";
 import { AppContext } from "../../contexts/AppContexts";
+import Web3Modal from "web3modal"
+import {providers,Contract} from "ethers";
+import { BigNumber } from "ethers";
+import { ethers } from "ethers";
 
 const ListedNFTS= ()=>{
+  const web3ModalRef = useRef()
+  const getProviderOrSigner =async (needSigner = false)=>{
+    const provider =await  web3ModalRef.current.connect();
+    const web3Provider = new providers.Web3Provider(provider);
+    const {chainId} =  await web3Provider.getNetwork();
+   
+    if ( chainId != 80001 ){
+      alert("please connect to mumbai Network");
+    }
+    if(needSigner){
+      const signer =  web3Provider.getSigner();
+      return signer;
+    }
+    return web3Provider;
+
+  }
   const [data,setData]  = useState([]);
+  // get the metedata for an NFT from IPFS
+ const fetchNftMeta = async (ipfsUrl) => {
+  try {
+    if (!ipfsUrl) return null;
+    const meta = await axios.get(ipfsUrl);
+    const data = JSON.parse(meta.data);
+    return data;
+  } catch (e) {
+    console.log({ e });
+  }
+};
 
   const getAllNFT =  async()=>{
     try{
-      let _data= [];
+      const nfts = [];
       const provider = await getProviderOrSigner();
-      const contract = new Contract(NFTMarketAddress,MarketPlaceABI,provider);
-      const  results = await contract.getAllNFTListing();
-      results?.forEach((element)=>{
-        _data.push(element);
-      });
-      setData(_data);
-
-    }catch(error){
-      console.log("the all nft error is: ", error);
+      const contract =  new Contract(NFTMarketAddress,MarketPlaceABI,provider)
+      const contract2 =  new Contract(NFTMinterAddress,NFTABI,provider)
+      const nftsLength = await contract.getListinglength()
+        
+      // contract starts minting from index 1
+      for (let i = 0; i <  Number(nftsLength); i++) {
+        const nft = new Promise(async (resolve) => {
+          const listing = await contract.getNFTListing(i);
+          const res = await contract2.tokenURI(i);
+          const meta = await fetchNftMeta(res);
+          resolve({
+            index: i,
+            nft: listing.nft,
+            tokenId: listing.tokenId,
+            price: listing.price,
+            seller: listing.seller,
+            forSale: listing.forSale,
+            owner: meta.owner,
+            name: meta.name,
+            image: meta.image,
+            description: meta.description,
+          });
+        });
+        nfts.push(nft);
+      }
+      //return Promise.all(nfts);
+      const _Nfts = await Promise.all(nfts);
+    setData(_Nfts);
+    } catch (e) {
+      console.log({ e });
     }
   }
-  const {
-    getProviderOrSigner,
-        Contract,
-} = useContext(AppContext)
+  
+  useEffect(()=>{
+    web3ModalRef.current =new Web3Modal({
+        network: "mumbai",
+        providerOptions: {},
+        disableInjectedProvider: false,
+        cacheProvider: false,
+      });
+      getAllNFT();
+    
+    },[])
 
-useEffect(()=>{
-getAllNFT();
-},[])
-console.log("the data is", Number(data.price));
     return(
 
 
         <div className="h-screen w-full bg-black text-white grid grid-cols-4 gap-4  place-items-start">
-<div class="max-w-sm rounded overflow-hidden shadow-lg ">
-  <img class="w-full" src={jeep} alt="Sunset in the mountains"/>
-  <div class="px-6 py-4">
-    <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
-    <p class="text-gray-700 text-base">
+          {data?.map((element)=>{
+console.log("the data is", (element.name));
+          })}
+<div className="max-w-sm rounded overflow-hidden shadow-lg ">
+  <img className="w-full" src={jeep} alt="Sunset in the mountains"/>
+  <div className="px-6 py-4">
+    <div className="font-bold text-xl mb-2">The Coldest Sunset</div>
+    <p className="text-gray-700 text-base">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
     </p>
   </div>
-  <div class="px-6 pt-4 pb-2">
-  <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">2.5 ETH</span>
+  <div className="px-6 pt-4 pb-2">
+  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">2.5 ETH</span>
     
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
+    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
     
   </div>
 </div>
 {/* second */}
-<div class="max-w-sm rounded overflow-hidden shadow-lg  ">
-  <img class="w-full" src={jeep} alt="Sunset in the mountains"/>
-  <div class="px-6 py-4">
-    <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
-    <p class="text-gray-700 text-base">
+<div className="max-w-sm rounded overflow-hidden shadow-lg  ">
+  <img className="w-full" src={jeep} alt="Sunset in the mountains"/>
+  <div className="px-6 py-4">
+    <div className="font-bold text-xl mb-2">The Coldest Sunset</div>
+    <p className="text-gray-700 text-base">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
     </p>
   </div>
-  <div class="px-6 pt-4 pb-2">
-  <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">2.5 ETH</span>
+  <div className="px-6 pt-4 pb-2">
+  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">2.5 ETH</span>
     
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
+    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
     
   </div>
 </div>
 {/* third */}
-<div class="max-w-sm rounded overflow-hidden shadow-lg ">
-  <img class="w-full" src={jeep} alt="Sunset in the mountains"/>
-  <div class="px-6 py-4">
-    <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
-    <p class="text-gray-700 text-base">
+<div className="max-w-sm rounded overflow-hidden shadow-lg ">
+  <img className="w-full" src={jeep} alt="Sunset in the mountains"/>
+  <div className="px-6 py-4">
+    <div className="font-bold text-xl mb-2">The Coldest Sunset</div>
+    <p className="text-gray-700 text-base">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
     </p>
   </div>
-  <div class="px-6 pt-4 pb-2">
-  <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">2.5 ETH</span>
+  <div className="px-6 pt-4 pb-2">
+  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">2.5 ETH</span>
     
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
+    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
     
   </div>
 </div>
 {/* fourth */}
-<div class="max-w-sm rounded overflow-hidden shadow-lg ">
-  <img class="w-full" src={jeep} alt="Sunset in the mountains"/>
-  <div class="px-6 py-4">
-    <div class="font-bold text-xl mb-2">The Coldest Sunset</div>
-    <p class="text-gray-700 text-base">
+<div className="max-w-sm rounded overflow-hidden shadow-lg ">
+  <img className="w-full" src={jeep} alt="Sunset in the mountains"/>
+  <div className="px-6 py-4">
+    <div className="font-bold text-xl mb-2">The Coldest Sunset</div>
+    <p className="text-gray-700 text-base">
       Lorem ipsum dolor sit amet, consectetur adipisicing elit. Voluptatibus quia, nulla! Maiores et perferendis eaque, exercitationem praesentium nihil.
     </p>
   </div>
-  <div class="px-6 pt-4 pb-2">
-  <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">2.5 ETH</span>
+  <div className="px-6 pt-4 pb-2">
+  <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">2.5 ETH</span>
     
-    <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
+    <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
     
   </div>
 </div>
