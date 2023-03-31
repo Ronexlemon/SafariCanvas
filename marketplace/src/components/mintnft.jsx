@@ -39,8 +39,8 @@ const Mintnftform= ()=>{
         const web3Provider = new providers.Web3Provider(provider);
         const {chainId} =  await web3Provider.getNetwork();
         const signer =  web3Provider.getSigner();
-        const accounts =await  signer.getAddress();
-        setAccount(accounts);
+        const address = await signer.getAddress();
+        setAccount( address);
         if ( chainId != 80001 ){
           alert("please connect to mumbai Network");
         }
