@@ -27,7 +27,7 @@ contract NFTMarketplace {
     // this function will list an artifact into the marketplace
     function listNFT(ERC721 _nft, uint256 _tokenId, uint256 _price) external {
         require(_price > 0, "NFTMarket: price must be greater than 0");
-        numOfListing.increment();
+
         listings[numOfListing.current()] = NFTListing(
             _nft,
             _tokenId,
@@ -35,6 +35,7 @@ contract NFTMarketplace {
             payable(msg.sender),
             false
         );
+        numOfListing.increment();
     }
 
     // this function will cancel the listing. it also has checks to make sure only the owner of the listing can cancel the listing from the market place
@@ -79,8 +80,9 @@ contract NFTMarketplace {
     }
 
     function getAllNFTListing() public view returns (NFTListing[] memory nfts) {
-        nfts = new NFTListing[](numOfListing.current());
-        for (uint i = 1; i <= numOfListing.current(); i++) {
+        uint numof = numOfListing.current();
+        nfts = new NFTListing[](numof);
+        for (uint i = 0; i < numof; i++) {
             nfts[i] = listings[i];
         }
     }
