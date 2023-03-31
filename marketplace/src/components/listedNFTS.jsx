@@ -33,7 +33,7 @@ const ListedNFTS= ()=>{
  const fetchNftMeta = async (ipfsUrl) => {
   try {
     if (!ipfsUrl) return null;
-    const meta = await axios.get(ipfsUrl);
+    const meta = await axios.get(await ipfsUrl);
     const data = JSON.parse(meta.data);
     console.log("the data is",typeof(data));
     return data;
@@ -56,8 +56,8 @@ const ListedNFTS= ()=>{
         const nft = new Promise(async (resolve) => {
           const listing = await contract.getNFTListing(i);
           const res = await contract2.tokenURI(i);
-          alert(await res);
-          const meta = await fetchNftMeta(res);
+          console.log("the res is",typeof(res));
+          const meta = await fetchNftMeta(await res);
           resolve({
             index: i,
             nft: listing.nft,
@@ -65,8 +65,8 @@ const ListedNFTS= ()=>{
             price: listing.price,
             seller: listing.seller,
             forSale: listing.forSale,
-            owner: meta.owner,
             name: meta.name,
+            owner:meta.owner,
             image: meta.image,
             description: meta.description,
           });

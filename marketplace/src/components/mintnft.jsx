@@ -25,10 +25,11 @@ const upload = (file)=>{
     return file_cid ;
 }
 
-const makeFileObjects = (file,file_name)=>{
-const blob = new Blob([JSON.stringify(file),{type: "application/json"}]);
-const files = [new File([blob],`${file_name}.json`)];
-return files;
+const makeFileObjects = async (file, file_name) => {
+  const parsedFile = JSON.parse(JSON.stringify(file));
+  const blob = new Blob([JSON.stringify(parsedFile)], {type: "application/json"});
+  const files = [new File([blob],`${file_name}.json`)];
+  return files;
 }
 console.log("the key is",getAccessKey() );
 const Mintnftform= ()=>{
@@ -81,21 +82,22 @@ const Mintnftform= ()=>{
             if (!name || !description || !ipfsImage){
                 console.log("its empty")
             };
-            const { defaultAccount } = account;
+           // const { defaultAccount } = account;
         
             // convert NFT metadata to JSON format
             const data = JSON.stringify({
               name,
               description,
               image: ipfsImage,
-              owner: defaultAccount,
+              owner: account,
             });
             try{
-                const files = makeFileObjects(data,name);
+                const files = await makeFileObjects(data,name);
                 const file_cid = await upload(files);
                  // IPFS url for uploaded metadata
-      const url = `https://${file_cid}.ipfs.w3s.link/${name}.json`;
-      alert(url);
+      const url = `https://${file_cid.toString()}.ipfs.w3s.link/${name.toString()}.json`;
+      console.log("the url is",url);
+      
       console.log("the url",url)
       const signer = await getProviderOrSigner(true);
       const contract = new Contract(NFTMinterAddress,NFTABI,signer);
