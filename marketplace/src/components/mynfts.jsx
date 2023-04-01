@@ -145,7 +145,7 @@ const tx = await contract.cancel(id);
     
     
   </div>
-  </div>:``}
+  </div>:`user ${account} does not own any KenyanCulture NFT`}
        
   </div>
       ))}
