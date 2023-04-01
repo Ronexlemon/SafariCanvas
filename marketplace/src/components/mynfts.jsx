@@ -11,7 +11,7 @@ import {providers,Contract} from "ethers";
 import { BigNumber } from "ethers";
 import { ethers } from "ethers";
 
-const ListedNFTS= ()=>{
+const Mynft= ()=>{
   const [account,setAccount] = useState();
   const web3ModalRef = useRef()
   const getProviderOrSigner =async (needSigner = false)=>{
@@ -102,8 +102,9 @@ const ListedNFTS= ()=>{
 
         <div className="h-screen w-full bg-black text-white grid grid-cols-4 gap-4  place-items-start">
   {data?.map((element) => (
-        
-        <div class="text-white max-w-sm rounded overflow-hidden shadow-lg ">
+    
+        <div>
+            {element.seller === account? <div class="text-white max-w-sm rounded overflow-hidden shadow-lg ">
   <img class="w-full" src={`${element.image}`} alt="Sunset in the mountains"/>
   <div class="px-6 py-4">
     <div class="font-bold text-xl mb-2">{element.name}</div>
@@ -120,6 +121,8 @@ const ListedNFTS= ()=>{
     
     
   </div>
+  </div>:``}
+       
   </div>
       ))}
         </div>
@@ -127,4 +130,4 @@ const ListedNFTS= ()=>{
 
 
 }
-export default ListedNFTS;
+export default Mynft;

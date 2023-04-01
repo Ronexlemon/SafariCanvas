@@ -15,8 +15,9 @@ const NavBarAllNFTS= ()=>{
                 <button onClick={()=>{navigate("/mint")}} >Mint NFT</button>
                 </div>
             <div className=" h-15  shadow-md shadow-orange-600 ">
-                <button  >MY NFTS</button>
+                <button  onClick={()=>{navigate("/mynft")}} >MY NFTS</button>
                 </div>
+               
 
             
         </div>

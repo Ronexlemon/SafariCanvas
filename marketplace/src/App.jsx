@@ -10,6 +10,7 @@ import reactLogo from './assets/react.svg'
 import './App.css'
 import LandingPage from './pages/LandingPage';
 import MintNfts from './pages/MintNFT';
+import MyNFTS from './pages/MyNFTS';
 
 
 
@@ -58,6 +59,7 @@ function App() {
       <Route path='/home' element={<LandingPage/>}/>
       <Route path='/marketplace' element={<MarketPlace/>}/>
       <Route path='/mint' element={<MintNfts/>}/>
+      <Route path='/mynft' element={<MyNFTS/>}/>
     </Routes>
    </Router>
     </AppContext.Provider>
