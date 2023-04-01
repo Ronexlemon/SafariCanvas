@@ -33,6 +33,15 @@ const Mynft= ()=>{
 
   }
   const [data,setData]  = useState([]);
+  const sellNft = async (id)=>{
+    try{
+const signer = await getProviderOrSigner(true);
+const contract = new Contract(NFTMarketAddress,MarketPlaceABI,signer);
+const tx = await contract.sell(id);
+    }catch(error){
+      console.log("sell error")
+    }
+  }
   
   // get the metedata for an NFT from IPFS
  const fetchNftMeta = async (ipfsUrl) => {
@@ -112,10 +121,13 @@ const Mynft= ()=>{
      {element.description}
     </p>
   </div>
-  <div class="px-6 pt-4 pb-2">
-  <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{Number(element.price)} ETH</span>
+  <div class="px-6 flex justify-around pt-4 pb-2">
+  <span class="inline-block  bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{Number(element.price)} ETH</span>
   {
-    account == element.seller? element.forSale==false?<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sell</span>:<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sold</span>:<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
+    account == element.seller? element.forSale==false?<button  onClick={()=>{sellNft(element.tokenId)}} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sell</button>:<div className="">
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sold</span>
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Cancel</span>
+    </div> :<span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
   }
     
     

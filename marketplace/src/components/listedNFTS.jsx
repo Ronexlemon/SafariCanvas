@@ -121,10 +121,13 @@ const tx = await contract.sell(id);
      {element.description}
     </p>
   </div>
-  <div class="px-6 pt-4 pb-2">
+  <div class="px-6 flex justify-around pt-4 pb-2">
   <span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">{Number(element.price)} ETH</span>
   {
-    account == element.seller? element.forSale==false?<button onClick={()=>{sellNft(element.tokenId)}} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sell</button>:<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sold</span>:<span class="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
+    account == element.seller? element.forSale==false?<button  onClick={()=>{sellNft(element.tokenId)}} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sell</button>:<div className="">
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sold</span>
+        <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Cancel</span>
+    </div> :<span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</span>
   }
     
     
