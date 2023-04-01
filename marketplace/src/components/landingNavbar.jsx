@@ -6,7 +6,7 @@ const LandingNavBar= ()=>{
 
         <div className="h-20 w-full bg-black text-white flex justify-around items-center">
             <div className="shadow-md shadow-orange-600">
- <span>MotorS</span>
+ <span>KenyanCultue</span>
             </div>
             <div className="shadow-md shadow-orange-600 h-15  ">
                 <button onClick={()=>{navigate("/marketplace")}} >Get Started</button>
