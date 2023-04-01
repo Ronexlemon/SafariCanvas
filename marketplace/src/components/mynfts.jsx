@@ -44,15 +44,7 @@ const tx = await contract.sell(id);
     }
   }
   //buy nft from market place
-  const buyNft = async (id)=>{
-    try{
-const signer = await getProviderOrSigner(true);
-const contract = new Contract(NFTMarketAddress,MarketPlaceABI,signer);
-const tx = await contract.buyNFT(id);
-    }catch(error){
-      console.log("sell error")
-    }
-  }
+ 
   
   // get the metedata for an NFT from IPFS
  const fetchNftMeta = async (ipfsUrl) => {
@@ -138,7 +130,7 @@ const tx = await contract.buyNFT(id);
     account == element.seller? element.forSale==false?<button  onClick={()=>{sellNft(element.tokenId)}} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sell</button>:<div className="">
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Sold</span>
         <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Cancel</span>
-    </div> :<button  onClick={()=>{buyNft(element.tokenId)}} className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</button>
+    </div> :<button  className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2 mb-2">Buy</button>
   }
     
     
