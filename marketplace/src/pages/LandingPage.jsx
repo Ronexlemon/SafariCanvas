@@ -5,7 +5,7 @@ import LandingBody from "../components/landbody";
 const LandingPage = ()=>{
     return(
 
-        <div className="h-full min-h-screen bg-black ">
+        <div className="h-full min-h-screen bg-black " >
  <LandingNavBar/>
  <LandingBody/>
         </div>
