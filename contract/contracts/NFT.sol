@@ -19,7 +19,7 @@ contract NftMarket is
 
     Counters.Counter private _tokenIdCounter;
 
-    constructor() ERC721("SportsCar", "SC") {}
+    constructor() ERC721("KenyaCulture", "KC") {}
 
     function createNFT(string memory uri) public returns (uint) {
         uint256 tokenId = _tokenIdCounter.current();
