@@ -61,7 +61,7 @@ const tx = await contract.buyNFT(id);
     if (!ipfsUrl) return null;
     const meta = await axios.get(await ipfsUrl);
     const data = JSON.parse(meta.data);
-    console.log("the data is",typeof(data));
+    //console.log("the data is",typeof(data));
     return data;
 
   } catch (e) {
@@ -82,7 +82,7 @@ const tx = await contract.buyNFT(id);
         const nft = new Promise(async (resolve) => {
           const listing = await contract.getNFTListing(i);
           const res = await contract2.tokenURI(i);
-          console.log("the res is",typeof(res));
+          //console.log("the res is",typeof(res));
           const meta = await fetchNftMeta(await res);
           resolve({
             index: i,

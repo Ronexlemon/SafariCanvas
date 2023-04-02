@@ -11,5 +11,5 @@
 //export const NFTMinterAddress =   "0x7f6e7b295ccA9678F1c37a1CD087cbE81D556eaB"
 //export const NFTMarketAddress =   "0xBB04B52a2Eb3734632fD9B7e6fBd3E745198e83E"
 
-export const  NFTMinterAddress =   0xe7FcBd3996e911f516F42e1983ccd55aAeDF51EC
-export const  NFTMarketAddress =   0x09b55EFD8c7650701Dc98A0813638F398fB201Cf
+export const  NFTMinterAddress =   "0xe7FcBd3996e911f516F42e1983ccd55aAeDF51EC"
+export const  NFTMarketAddress =   "0x09b55EFD8c7650701Dc98A0813638F398fB201Cf"

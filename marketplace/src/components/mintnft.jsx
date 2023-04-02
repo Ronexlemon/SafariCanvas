@@ -31,7 +31,7 @@ const makeFileObjects = async (file, file_name) => {
   const files = [new File([blob],`${file_name}.json`)];
   return files;
 }
-console.log("the key is",getAccessKey() );
+//console.log("the key is",getAccessKey() );
 const Mintnftform= ()=>{
   const [load,setLoad] = useState(false);
     const web3ModalRef = useRef()
@@ -97,19 +97,19 @@ const Mintnftform= ()=>{
                 const file_cid = await upload(files);
                  // IPFS url for uploaded metadata
       const url = `https://${file_cid.toString()}.ipfs.w3s.link/${name.toString()}.json`;
-      console.log("the url is",url);
+      //console.log("the url is",url);
       
-      console.log("the url",url)
+      //console.log("the url",url)
       const signer = await getProviderOrSigner(true);
       const contract = new Contract(NFTMinterAddress,NFTABI,signer);
       const transaction = await contract.createNFT(url);
       const receipt = await transaction.wait(); // Wait for transaction confirmation
       const transferEvent = receipt.events.find((event) => event.event === "Transfer");
       const tokenCount = transferEvent.args.tokenId.toString();
-    console.log("count token",tokenCount);
+    //console.log("count token",tokenCount);
     //   const NFTprice = Number(ethers.utils.parseUnits(String(price), "ether"));
     const NFTprice = Number(ethers.BigNumber.from(price));
-      console.log(NFTprice);
+      //console.log(NFTprice);
       await contract.approve(NFTMarketAddress,tokenCount);
      
       
@@ -121,7 +121,7 @@ const Mintnftform= ()=>{
     setReload(false);
    
    
-  alert("mint done");
+  alert("Mint...successful...");
             }catch(error){
                 console.log("create error", error);
                 alert("error",error)
@@ -131,7 +131,7 @@ const Mintnftform= ()=>{
       }
       const handleSubmit = (e) => {
         e.preventDefault();
-        console.log("submitted")
+        //console.log("submitted")
       }
     //check reload
   const setReload = (bol)=>{
@@ -167,7 +167,7 @@ const Mintnftform= ()=>{
 <div className="w-full h-3/4  flex  justify-center rounded overflow-hidden shadow-lg  ">
     <div className="shadow shadow-orange-700 grid grid-cols-1 gap-8 p-4">
         <h1>Create An NFT</h1>
-        <img className="  max-h-60 max-w-md" src={imageNft} alt="image"/>
+        <img className="  max-h-40 max-w-md" src={imageNft} alt="image"/>
     <form  onSubmit={handleSubmit}>
 
         <div className=" grid grid-cols-1 gap-4">
@@ -199,8 +199,8 @@ const Mintnftform= ()=>{
 
 
     <button  onClick={()=>{createNFT()}} className="shadow text-white shadow-orange-400" >Create</button>
-{console.log("ipfs",ipfsImage)}
-{console.log("account is",account)}
+{/* {console.log("ipfs",ipfsImage)}
+{console.log("account is",account)} */}
 
         </div>
 
