@@ -33,6 +33,7 @@ const makeFileObjects = async (file, file_name) => {
 }
 console.log("the key is",getAccessKey() );
 const Mintnftform= ()=>{
+  const [load,setLoad] = useState(false);
     const web3ModalRef = useRef()
      
     const getProviderOrSigner =async (needSigner = false)=>{
@@ -77,7 +78,7 @@ const Mintnftform= ()=>{
       
    
       const createNFT = async()=>{
-        
+        setReload(true);
         
             if (!name || !description || !ipfsImage){
                 console.log("its empty")
@@ -110,8 +111,15 @@ const Mintnftform= ()=>{
     const NFTprice = Number(ethers.BigNumber.from(price));
       console.log(NFTprice);
       await contract.approve(NFTMarketAddress,tokenCount);
+     
+      
+       
+       
    const contract2 = new Contract(NFTMarketAddress,MarketPlaceABI,signer);
    const tx =  contract2.listNFT(NFTMinterAddress,tokenCount,NFTprice);
+   
+    setReload(false);
+   
    
   alert("mint done");
             }catch(error){
@@ -125,10 +133,12 @@ const Mintnftform= ()=>{
         e.preventDefault();
         console.log("submitted")
       }
-    const onChangePicture = e => {
-        console.log('picture: ', e.target.files[0]);
-        setImageNft(URL.createObjectURL(e.target.files[0]));
-    };
+    //check reload
+  const setReload = (bol)=>{
+    
+        setLoad(bol)
+    
+  }
     useEffect(()=>{
         web3ModalRef.current =new Web3Modal({
             network: "mumbai",
@@ -137,11 +147,23 @@ const Mintnftform= ()=>{
             cacheProvider: false,
           });
           getProviderOrSigner();
+          
         
-        },[])
+        },[load])
     return(
 
-        <div className="h-screen w-full bg-black text-black ">
+        <div className="relative h-screen w-full bg-black text-black ">
+           {
+                load?<div className="absolute inset-0   flex justify-center items-center  duration-[2000ms] ">
+                <div
+    class="inline-block  h-16 w-16 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite] bg-orange-500"
+    role="status">
+    <span
+      class="!absolute  !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+      >Loading...</span>
+    
+  </div>
+              </div>:  ``      }
 <div className="w-full h-3/4  flex  justify-center rounded overflow-hidden shadow-lg  ">
     <div className="shadow shadow-orange-700 grid grid-cols-1 gap-8 p-4">
         <h1>Create An NFT</h1>
