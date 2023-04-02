@@ -65,7 +65,7 @@ const Mintnftform= ()=>{
         const image = e.target.files;
         setImageNft(URL.createObjectURL(e.target.files[0]));
         const image_name = image[0].name;
-        setName(image_name);
+      //  setName(image_name);
       
         if (!image) return;
         // Pack files into a CAR and send to web3.storage
@@ -157,6 +157,12 @@ const Mintnftform= ()=>{
                 }
                 setIpfsImage(imageUrl);
               }}/>
+                <input type="textarea"
+                placeholder="name"
+                
+                onChange={(e) => {
+                  setName(e.target.value);
+                }}/>
         <input type="textarea"
                 placeholder="description"
                 

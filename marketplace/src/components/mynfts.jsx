@@ -121,12 +121,12 @@ const tx = await contract.cancel(id);
     return(
 
 
-        <div className="h-screen w-full bg-black text-white grid grid-cols-4 gap-4  place-items-start">
+        <div className="h-full min-h-screen w-full bg-black text-white grid grid-cols-1 gap-4 md:grid-cols-4  place-items-start">
   {data?.map((element) => (
     
         <div>
-            {element.seller === account? <div class="text-white max-w-sm rounded overflow-hidden shadow-lg ">
-  <img class="w-full" src={`${element.image}`} alt="Sunset in the mountains"/>
+            {element.seller === account? <div class="w-full  md:max-w-sm    md:max-h-min   rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
+  <img class="  h-40 object-cover w-full" src={`${element.image}`} alt="Sunset in the mountains"/>
   <div class="px-6 py-4">
     <div class="font-bold text-xl mb-2">{element.name}</div>
     <p class="text-gray-700 text-base">
