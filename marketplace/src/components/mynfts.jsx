@@ -109,7 +109,7 @@ const tx = await contract.cancel(id);
   }
   //check reload
   const setReload = ()=>{
-    if(data !==null){
+    if(data.length >0){
         setLoad(false)
     }
   }
@@ -124,7 +124,7 @@ const tx = await contract.cancel(id);
       getAllNFT();
       setReload();
     
-    },[])
+    },[data])
 
     return(
 
@@ -132,7 +132,7 @@ const tx = await contract.cancel(id);
         <div className="relative h-full min-h-screen w-full bg-black text-white grid grid-cols-1 gap-4 md:grid-cols-4  place-items-start">
             
             {
-                load?<div className="absolute inset-0 flex justify-center items-center  ">
+                load?<div className="absolute inset-0 flex justify-center items-center  duration-[2000ms] ">
                 <div
     class="inline-block h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
     role="status">
@@ -149,7 +149,7 @@ const tx = await contract.cancel(id);
     
     
         <div>
-            {element.seller === account? <div class="w-full   md:max-w-sm    md:max-h-min   rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
+            {element.seller === account? <div className="w-full   md:max-w-sm    md:max-h-min   rounded-lg shadow dark:bg-gray-800 dark:border-gray-700 ">
   <img class="  h-40 object-cover w-full" src={`${element.image}`} alt="Sunset in the mountains"/>
   <div class="px-6 py-4">
     <div class="font-bold text-xl mb-2">{element.name}</div>

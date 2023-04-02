@@ -13,6 +13,7 @@ import { ethers } from "ethers";
 
 const ListedNFTS= ()=>{
   const [account,setAccount] = useState();
+  const [load,setLoad] = useState(true);
   const web3ModalRef = useRef()
   const getProviderOrSigner =async (needSigner = false)=>{
     const provider =await  web3ModalRef.current.connect();
@@ -98,6 +99,7 @@ const tx = await contract.buyNFT(id);
         });
         nfts.push(nft);
       }
+    
       //return Promise.all(nfts);
       const _Nfts = await Promise.all(nfts);
     setData(_Nfts);
@@ -105,6 +107,12 @@ const tx = await contract.buyNFT(id);
       console.log({ e });
     }
   }
+    //check reload
+    const setReload = ()=>{
+      if(data.length >0){
+          setLoad(false)
+      }
+    }
   
   useEffect(()=>{
     web3ModalRef.current =new Web3Modal({
@@ -114,13 +122,25 @@ const tx = await contract.buyNFT(id);
         cacheProvider: false,
       });
       getAllNFT();
+      setReload()  
     
-    },[])
+    },[data])
 
     return(
 
 
-        <div className="h-full min-h-screen w-full bg-black text-white grid grid-cols-1 gap-4 md:grid-cols-3  place-items-start">
+        <div className="relative h-full min-h-screen w-full bg-black text-white grid grid-cols-1 gap-4 md:grid-cols-3  place-items-start">
+          {
+                load?<div className="absolute inset-0 flex justify-center items-center  ">
+                <div
+    class="inline-block duration-700 h-8 w-8 animate-spin rounded-full border-4 border-solid border-current border-r-transparent align-[-0.125em] motion-reduce:animate-[spin_1.5s_linear_infinite]"
+    role="status">
+    <span
+      class="!absolute !-m-px !h-px !w-px !overflow-hidden !whitespace-nowrap !border-0 !p-0 ![clip:rect(0,0,0,0)]"
+      >Loading...</span>
+    
+  </div>
+              </div>:  ``      }
   {data?.map((element) => (
         
         <div class="  w-full  md:max-w-sm     md:max-h-min   rounded-lg shadow dark:bg-gray-800 dark:border-gray-700  ">
